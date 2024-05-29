@@ -26,6 +26,7 @@ export const signup = async (req, res) => {
 		username,
 		password: hashedPassword,
 		profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
+		gender
 	})
 
 	await newUser.save();
@@ -35,6 +36,7 @@ export const signup = async (req, res) => {
 		fullName: newUser.fullName,
 		username: newUser.username,
 		profilePic: newUser.profilePic,
+		gender: newUser.gender
 	})
   } catch (error) {
 	console.log("Error in signup controller", error.message);
