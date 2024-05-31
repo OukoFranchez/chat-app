@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
+
 const useSignUp = () => {
   const [loading, setLoading] = useState(false);
-
+  const { setAuthUser } = useAuthContext();
   const signup = async ({
     fullName,
     username,
@@ -19,29 +21,37 @@ const useSignUp = () => {
     });
     if (!success) return;
 
-	setLoading(true);
-	try {
-		const res = await fetch('/api/auth/signup', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				fullName,
-    username,
-    password,
-    confirmPassword,
-    gender})
-			})
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          username,
+          password,
+          confirmPassword,
+          gender,
+        }),
+      });
 
-			const data = await res.json();
-			console.log(data);
-	} catch (error) {
-		toast.error('Failed to sign up');
-	} finally {
-		setLoading(false);
-  }
-};
+      const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
-return { loading, signup };
+      localStorage.setItem('chat-user', JSON.stringify(data));
+
+      setAuthUser(data);
+      console.log(data);
+    } catch (error) {
+      toast.error('Failed to sign up');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, signup };
 };
 
 export default useSignUp;
