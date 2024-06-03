@@ -1,6 +1,6 @@
-import SearchInput from './SearchInput.jsx';
-import Conversations from './Conversations.jsx';
-import LogoutButton from './LogOutButton.jsx';
+import Conversations from './Conversations';
+import LogOutButton from './LogOutButton';
+import SearchInput from './SearchInput';
 
 const Sidebar = () => {
   return (
@@ -8,32 +8,25 @@ const Sidebar = () => {
       <SearchInput />
       <div className='divider px-3'></div>
       <Conversations />
-      <LogoutButton />
+      <LogOutButton />
     </div>
   );
 };
-
 export default Sidebar;
 
-
-
-
-// STARTER CODE FOR Sidebar.jsx
-
-// import SearchInput from './SearchInput.jsx';
-// import Conversations from './Conversations.jsx';
-// import LogoutButton from './LogOutButton.jsx';
+// STARTER CODE FOR THIS FILE
+// import Conversations from "./Conversations";
+// import LogoutButton from "./LogoutButton";
+// import SearchInput from "./SearchInput";
 
 // const Sidebar = () => {
-//   return (
-//     <div className='border-r border-slate-500 p-4 flex flex-col'>
-//       <SearchInput />
-//       <div className='divider px-3'></div>
-//       <Conversations />
-//       <LogoutButton />
-//     </div>
-//   );
+// 	return (
+// 		<div className='border-r border-slate-500 p-4 flex flex-col'>
+// 			<SearchInput />
+// 			<div className='divider px-3'></div>
+// 			<Conversations />
+// 			<LogoutButton />
+// 		</div>
+// 	);
 // };
-
 // export default Sidebar;
-
