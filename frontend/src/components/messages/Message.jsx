@@ -1,56 +1,58 @@
-import { useAuthContext } from "../../context/AuthContext"
-import { extractTime } from "../../utils/extractTime";
-import useConversation from "../../zustand/useConversation";
+import { useState } from 'react';
+import { IoSearchSharp } from 'react-icons/io5';
+import useConversation from '../../zustand/useConversation';
+import useGetConversations from '../../hooks/useGetConversations';
+import toast from 'react-hot-toast';
 
-const Message = ({message}) => {
+const SearchInput = () => {
+  const [search, setSearch] = useState('');
+  const { setSelectedConversation } = useConversation();
+  const { conversations } = useGetConversations();
 
-	const {authUser} = useAuthContext();
-	const {selectedConversation} = useConversation();
-	const fromMe = message.senderId === authUser._id;
-	const formattedDate = extractTime(message.createdAt);
-	const chatClassName = fromMe ? ' chat-end' : ' chat-start';
-	const profilePic = fromMe ? authUser.profilePic : selectedConversation.profilePic;
-	const bubbleBgColor = fromMe ? " bg-blue-500 " : '';
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!search) return;
+    if (search.length < 3) {
+      return toast.error('Search term must be at least 3 characters long');
+    }
 
+    const conversation = conversations.find((c) =>
+      c.fullName.toLowerCase().includes(search.toLowerCase())
+    );
 
+    if (conversation) {
+      setSelectedConversation(conversation);
+      setSearch('');
+    } else toast.error('No such user found!');
+  };
   return (
-    <div className={`chat ${chatClassName}`}>
-      <div className='chat-image avatar'>
-        <div className='w-10 rounded-full'>
-          <img src={profilePic} alt='Tailwind CSS chat bubble component' />
-        </div>
-      </div>
-      <div className={`chat-bubble text-white ${bubbleBgColor}`}>
-        {message.message}
-      </div>
-      <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>
-        {formattedDate}
-      </div>
-    </div>
+    <form onSubmit={handleSubmit} className='flex items-center gap-2'>
+      <input
+        type='text'
+        placeholder='Search…'
+        className='input input-bordered rounded-full'
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button type='submit' className='btn btn-circle bg-sky-500 text-white'>
+        <IoSearchSharp className='w-6 h-6 outline-none' />
+      </button>
+    </form>
   );
-}
+};
+export default SearchInput;
 
-export default Message
+// STARTER CODE SNIPPET
+// import { IoSearchSharp } from "react-icons/io5";
 
-
-
-// Starter Code for Message.jsx
-
-// const Message = () => {
-//   return (
-// 	<div className="chat chat-end">
-// 		<div className="chat-image avatar">
-// 			<div className="w-10 rounded-full">
-// 				<img
-// 					src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
-// 					alt="user avatar"
-// 				/>
-// 			</div>
-// 		</div>
-// 		<div className={`chat-bubble text-white bg-blue-500`}>Omera bocha</div>
-// 		<div className="chat-footer opacity-50 text-xs flex gap-1 items-center">20:07</div>
-// 	</div>
-//   )
-// }
-
-// export default Message
+// const SearchInput = () => {
+// 	return (
+// 		<form className='flex items-center gap-2'>
+// 			<input type='text' placeholder='Search…' className='input input-bordered rounded-full' />
+// 			<button type='submit' className='btn btn-circle bg-sky-500 text-white'>
+// 				<IoSearchSharp className='w-6 h-6 outline-none' />
+// 			</button>
+// 		</form>
+// 	);
+// };
+// export default SearchInput;
