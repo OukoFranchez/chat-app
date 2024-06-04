@@ -1,12 +1,12 @@
 import MessageContainer from '../../components/messages/MessageContainer';
 import Sidebar from '../../components/sidebar/Sidebar';
-const Chat = () => {
+
+const Home = () => {
   return (
-    <div className='flex sm:h-[450] md:h-[150] rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
+    <div className='flex sm:h-[450px] md:h-[550px] rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
       <Sidebar />
       <MessageContainer />
     </div>
   );
 };
-
-export default Chat;
+export default Home;
