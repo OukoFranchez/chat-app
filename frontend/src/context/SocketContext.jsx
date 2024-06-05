@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useAuthContext } from './AuthContext';
 import io from 'socket.io-client';
@@ -36,6 +37,8 @@ export const SocketContextProvider = ({ children }) => {
         setSocket(null);
       }
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
